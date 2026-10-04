@@ -1,0 +1,25 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Credentials and tokens
+.secrets/
+credentials.json
+token.json
+
+# Generated files and caches
+*.log
+!knowledge/log.md
+*.tmp
+.tmp/
+*.swp
+__pycache__/
+*.py[cod]
+node_modules/
+.DS_Store
+Thumbs.db
+
+.agents/skills
+.claude/skills
