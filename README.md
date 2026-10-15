@@ -14,7 +14,7 @@ Starter source: [assistant-starter-kit](https://github.com/jarupong-mts/assistan
 ## Get started
 
 1. Read [AGENTS.md](AGENTS.md) and personalize the working agreement.
-2. Read [docs/getting-started.md](docs/getting-started.md).
+2. Read [knowledge/_system/getting-started.md](knowledge/_system/getting-started.md).
 3. Read `knowledge/main.md` for real project domains. Only `_example/` and `_template/` are scaffolding.
 4. Add project-specific environment variable names to `.env.example` when needed. Never put real secrets there.
 5. Add reusable workflow skills under `.codex/skills/`.
@@ -28,20 +28,21 @@ Starter source: [assistant-starter-kit](https://github.com/jarupong-mts/assistan
 - `.agents/skills` and `.claude/skills` — compatibility links to the canonical skill folder; junctions on Windows and symbolic links on macOS/Linux.
 - `knowledge/` — navigation, reusable templates, and clearly labeled examples.
 - `scripts/` — shared setup and project scripts.
-- `docs/` — onboarding and maintenance guidance.
+- `docs/` — project concepts, PRDs, design specs, and deliverable documentation.
+- `knowledge/_system/` — assistant setup and knowledge-system operating guidance.
 - `.env.example` — commented guide only; each user defines their own variables.
 
 The pages under `knowledge/_example/` are fictional scaffolding; real project
 context belongs in the domains listed by `knowledge/main.md`. Keep credentials
 out of knowledge. The complete knowledge-management capability is mapped to the
-pinned upstream version in [the adoption record](docs/knowledge/adoption.md).
+pinned upstream version in [the adoption record](knowledge/_system/adoption.md).
 Run `sh scripts/knowledge/check.sh` after the final knowledge write.
 
 ## Keep project memory local
 
 This distribution contains the working agreement, skills, documentation, scripts,
 reusable templates, fictional examples, and the pinned public upstream reference.
-The knowledge navigation and action log start empty. `.gitignore` excludes new
+Project-domain navigation starts empty; the action log records starter maintenance only. `.gitignore` excludes new
 real knowledge domains, other inbox sources, and generated outputs by default.
 Review `git diff --cached` before publishing. Navigation, logs, and other already
 tracked files can still contain real context after use; review their contents too.

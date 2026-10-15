@@ -10,14 +10,12 @@ is introduced. Templates and fictional examples are not project facts.
 
 ## Shared resources
 
-- [`_template/`](_template/) — copyable topic templates.
-- [`_example/`](_example/) — fictional examples; never treat them as facts.
+- [`_template/`](_template) — copyable topic templates.
+- [`_example/`](_example) — fictional examples; never treat them as facts.
 - [`log.md`](log.md) — concise record of durable knowledge changes; read when
   history, contradictions, prior decisions, or lint context matter.
-- [Knowledge adoption](../docs/knowledge/adoption.md) — pinned upstream contracts,
-  native paths, category protections, and assets for knowledge-system maintenance.
-- [Maintenance contracts](../docs/knowledge/contracts.md) — metadata, typed references,
-  structured log, and Knowledge Outcome.
+- [`_system/`](_system/index.md) — assistant setup, knowledge-maintenance
+  contracts, validation, and adoption provenance.
 
 ## Navigation rule
 

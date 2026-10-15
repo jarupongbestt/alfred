@@ -7,6 +7,7 @@ template_dirs:
 example_dirs:
   - _example
 index_files:
+  - _system/index.md
   - _template/index.md
   - _example/index.md
 navigation_files:

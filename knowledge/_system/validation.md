@@ -1,3 +1,13 @@
+---
+type: self
+description: Knowledge checker operation, supported inputs and limits
+source_refs:
+  - kind: local
+    target: ../../scripts/knowledge/validate_knowledge.py
+updated: "2026-10-15"
+status: current
+---
+
 # Knowledge validation
 
 The read-only checker is pinned to agent-harness-concept
@@ -26,7 +36,7 @@ Run after final topic/metadata/index/hints/log writes. The checker never execute
 reference commands or checks URL availability. It does not prove claims or human
 acceptance. References outside the repository are errors; preserve needed artifacts
 inside the repository rather than exempting broken references. See the
-[actual classifications](../../knowledge/validation-layout.yaml).
+[actual classifications](../validation-layout.yaml).
 
 The reader limits below describe this reference implementation, not a narrowed
 portable metadata contract. The upstream maintainer regression tests are retained
@@ -76,7 +86,7 @@ Malformed or unsupported frontmatter returns `METADATA_INVALID`; log input retur
 limits use the same typed routes. Deterministic diagnostics identify the syntax
 and line when available rather than guessing or executing parsed values.
 
-The [explicit layout](../../knowledge/validation-layout.yaml) classifies existing bounded paths
+The [explicit layout](../validation-layout.yaml) classifies existing bounded paths
 relative to the knowledge root: raw directories, companions, templates, examples,
 indexes, navigation pages, and logs. No filename grants an exemption. Without a
 layout these classifications are empty. Inside raw directories only explicitly

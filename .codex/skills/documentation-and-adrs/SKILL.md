@@ -67,4 +67,4 @@ remove projected links; never install this repository's whole example knowledge 
 Local adaptation of agent-harness-concept `a05a718dd96218abd077adc258b9bf484121a929`
 (v0.3.0), accessed 2026-10-15. Native path translations, retained starter rules,
 supporting assets and compatibility evidence are in the
-[adoption map](../../../docs/knowledge/adoption.md).
+[adoption map](../../../knowledge/_system/adoption.md).

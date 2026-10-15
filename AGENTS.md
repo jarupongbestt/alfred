@@ -25,7 +25,7 @@ At the beginning of every task:
 4. Read the relevant topic and focused `source_refs` before broader searches.
    If navigation is absent, stale, contradictory, or insufficient, record the
    evidence and reason for a narrow expansion. For knowledge-system maintenance,
-   use [the adoption map](docs/knowledge/adoption.md) instead of inventing a domain.
+   use [the adoption map](knowledge/_system/adoption.md) instead of inventing a domain.
 5. Read [knowledge/log.md](knowledge/log.md) only when history, contradictions,
    recurring failures, prior decisions, or lint context matter.
 
@@ -50,10 +50,10 @@ adoption. Verify conformance against a pinned upstream revision before claiming
 that the implementation is complete; recording this scope alone is not proof.
 
 The pinned baseline and required asset mapping are maintained in
-[docs/knowledge/adoption.md](docs/knowledge/adoption.md). For durable-learning
+[knowledge/_system/adoption.md](knowledge/_system/adoption.md). For durable-learning
 assessment, load both `knowledge-base` and
 [documentation-and-adrs](.codex/skills/documentation-and-adrs/SKILL.md).
-Follow the [metadata, log, and Knowledge Outcome contracts](docs/knowledge/contracts.md).
+Follow the [metadata, log, and Knowledge Outcome contracts](knowledge/_system/contracts.md).
 After the final knowledge write, including navigation and log edits, run
 `sh scripts/knowledge/check.sh`. Required failed or unavailable checks are
 `blocked`; an earlier pass does not certify later writes. Check results do not
@@ -66,6 +66,7 @@ and explicit source re-sync rules recorded in the adoption map.
 knowledge/
 ├── main.md                 # mandatory startup navigation
 ├── log.md                  # concise knowledge action log
+├── _system/                # assistant setup and knowledge-system operating guidance
 ├── <domain>/               # real project domains
 │   ├── index.md            # domain navigation
 │   ├── self/               # internal discoveries, decisions, constraints
@@ -74,6 +75,15 @@ knowledge/
 ├── _template/              # copyable topic templates
 └── _example/               # fictional examples, not project facts
 ```
+
+## Document placement
+
+Keep project concepts, PRDs, design specs, and deliverable documentation in
+`docs/`. Keep assistant setup and operating guidance, knowledge-maintenance
+contracts, and their provenance under `knowledge/_system/`. This shared system
+area is not a project domain. Curated project facts, constraints, and decisions
+belong in their knowledge domains; link to primary project documents rather
+than copying their full content.
 
 ## Automatic knowledge capture
 

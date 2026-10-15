@@ -1,3 +1,13 @@
+---
+type: self
+description: Assistant starter setup and knowledge workflow onboarding
+source_refs:
+  - kind: local
+    target: ../../AGENTS.md
+updated: "2026-10-15"
+status: current
+---
+
 # Getting Started
 
 ## 1. Personalize the working agreement
@@ -50,8 +60,8 @@ assess whether to update existing knowledge, consolidate it, create a distinct
 topic, or skip a write. Maintain required metadata, typed evidence, Navigation Hints
 and actual structured log entries. Run `sh scripts/knowledge/check.sh` after the
 final write, including the log, and return the
-[Knowledge Outcome](knowledge/contracts.md#knowledge-outcome). Required failed or
-unavailable checks are blocked. The [adoption map](knowledge/adoption.md) records
+[Knowledge Outcome](contracts.md#knowledge-outcome). Required failed or
+unavailable checks are blocked. The [adoption map](adoption.md) records
 the complete knowledge-only scope, source versions, protections and native paths.
 
 ## 4. Add environment variables only when needed

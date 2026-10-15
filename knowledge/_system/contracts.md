@@ -1,3 +1,13 @@
+---
+type: self
+description: Knowledge metadata, lifecycle, action-log and outcome contracts
+source_refs:
+  - kind: local
+    target: ../inbox/sources/agent-harness-concept-2026-10-15-a05a718/schemas/artifacts.md
+updated: "2026-10-15"
+status: current
+---
+
 # Knowledge maintenance contracts
 
 This is the local projection of the knowledge-only contracts at
@@ -91,14 +101,14 @@ explicitly configured template paths get placeholder date/reference exemptions;
 nonplaceholder references still resolve. Configured example topics need complete
 real metadata, `example: true`, and an illustrative notice. They never prove project
 decisions. Indexes, logs, navigation, companions, raw sources, examples and templates
-are classified explicitly in [the layout](../../knowledge/validation-layout.yaml),
+are classified explicitly in [the layout](../validation-layout.yaml),
 not inferred from filenames. ADR lifecycle is maintained in the
 [ADR method](../../.codex/skills/documentation-and-adrs/SKILL.md).
 
 ## Action log
 
 Actual new actions go in the `## Entries` YAML list in
-[knowledge/log.md](../../knowledge/log.md). Keep historical prose unchanged.
+[knowledge/log.md](../log.md). Keep historical prose unchanged.
 Do not manufacture timestamps, acceptance, or check outcomes for older events.
 
 ```yaml

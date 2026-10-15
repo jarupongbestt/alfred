@@ -1,3 +1,13 @@
+---
+type: self
+description: Pinned knowledge-management adoption map and native operating paths
+source_refs:
+  - kind: local
+    target: ../inbox/sources/agent-harness-concept-2026-10-15-a05a718/manifest.json
+updated: "2026-10-15"
+status: current
+---
+
 # Knowledge-only adoption
 
 This starter adopts the complete knowledge-management capability from
@@ -12,18 +22,19 @@ capability; the current assistant performs its assessment responsibilities.
 | Item | Native destination |
 | --- | --- |
 | Bootstrap | [AGENTS.md](../../AGENTS.md); Claude adapter imports it through [CLAUDE.md](../../CLAUDE.md) |
-| Knowledge root / startup | [knowledge/main.md](../../knowledge/main.md) |
+| System guidance | [Operating guides](index.md); project concepts and PRDs belong in `docs/` |
+| Knowledge root / startup | [knowledge/main.md](../main.md) |
 | Domains / categories | No real domains in the starter; `self/`, `derived/`, `sources/` |
-| Templates | [knowledge/_template/index.md](../../knowledge/_template/index.md) |
-| Action log | [knowledge/log.md](../../knowledge/log.md), empty structured Entries for future real changes |
-| Classifications | [knowledge/validation-layout.yaml](../../knowledge/validation-layout.yaml) |
+| Templates | [knowledge/_template/index.md](../_template/index.md) |
+| Action log | [knowledge/log.md](../log.md), structured Entries containing starter maintenance only |
+| Classifications | [knowledge/validation-layout.yaml](../validation-layout.yaml) |
 | Check command | `sh scripts/knowledge/check.sh` after the final write |
 | Runtime | Existing Python 3.10+; wrapper discovers a compatible PATH or bundled interpreter, or uses `KNOWLEDGE_PYTHON` |
 | Contracts / outcome | [contracts.md](contracts.md) |
 | Verification evidence | [Starter verification](evidence/starter-check.json), generated for this clean export |
 
 Skills are canonical in `.codex/skills/`. Set up `.agents/skills` and
-`.claude/skills` as compatibility links using the [setup guide](../getting-started.md#2-set-up-skill-compatibility-links);
+`.claude/skills` as compatibility links using the [setup guide](getting-started.md#2-set-up-skill-compatibility-links);
 they are not separate skill copies.
 Both knowledge methods remain normally discoverable through SKILL.md frontmatter.
 An existing session may need to read a newly added method by its explicit path;
@@ -50,20 +61,24 @@ registration in a later fresh skill catalog is not claimed without observation.
   uncertainty are allowed within a maintenance task. They do not assert a fresh
   source review. Raw sources remain unchanged by such migrations.
 - `inbox/sources/` is protected raw intake pending domain triage. No domain is
-  invented merely to house harness operating rules. Those rules live in these
-  instructions/methods; the upstream source snapshot remains in inbox.
+  invented merely to house harness operating rules. Those rules live in the instructions, methods and
+  `knowledge/_system/` operating references; the upstream source remains in inbox.
 - Templates/examples are explicitly classified scaffolding, not factual evidence.
   Keep task state outside durable knowledge; exact retained verification artifacts
-  may live under `docs/knowledge/evidence/` to support this adoption record.
+  may live under `knowledge/_system/evidence/` to support this adoption record.
 
 This distribution contains no real project domains, private attachments, outputs,
-or local knowledge history. Its navigation and log start empty. The retained
+or local knowledge history. Its project-domain navigation starts empty; its log contains only starter maintenance. The retained
 upstream snapshot is public source provenance, not personal project knowledge.
+
+System guidance moved from `docs/` to `knowledge/_system/` on 2026-10-15.
+Retained verification reports preserve their original bytes and historical
+path strings; current links and classifications use the new locations.
 
 ## Methods
 
 Both methods are `local_adaptation` projections from the pinned source above.
-The [retained manifest](../../knowledge/inbox/sources/agent-harness-concept-2026-10-15-a05a718/manifest.json)
+The [retained manifest](../inbox/sources/agent-harness-concept-2026-10-15-a05a718/manifest.json)
 records exact paths, URLs and hashes. Compatibility review preserves required
 contracts, native loading, category protections and the working agreement's
 automatic capture scope; paths and supporting references are translated.
@@ -74,14 +89,14 @@ by reference to upstream `skills/origins.md` in that snapshot.
 | --- | --- | --- |
 | `skills/knowledge-base/SKILL.md` | Translated: [.codex/skills/knowledge-base/SKILL.md](../../.codex/skills/knowledge-base/SKILL.md) | Full retrieval/curation/metadata/log/check/outcome contract; retains source-first intake, contextual domain routing and scoped consolidation rules |
 | `skills/documentation-and-adrs/SKILL.md` | Translated: [.codex/skills/documentation-and-adrs/SKILL.md](../../.codex/skills/documentation-and-adrs/SKILL.md) | Single local method; all ADR sections/status/human-evidence requirements retained; paths rewritten |
-| `knowledge/_template/adr.md` | Included: [ADR template](../../knowledge/_template/adr.md) | Required structure; actual ADR creation remains conditional on consequential decisions |
-| `knowledge/_template/self-topic.md` | Included: [internal template](../../knowledge/_template/self-topic.md) | Complete metadata/reference shapes |
-| `knowledge/_template/derived-topic.md` | Included: [derived template](../../knowledge/_template/derived-topic.md) | Provenance and uncertainty retained |
-| `knowledge/_template/source-topic.md` | Included: [companion template](../../knowledge/_template/source-topic.md) | Optional companion creation with required metadata when used |
-| `knowledge/_template/index.md` | Translated: [index template](../../knowledge/_template/index.md) | Native category navigation and Task / Target hints |
-| `knowledge/main.md` | Translated: [starter startup](../../knowledge/main.md) | Empty domain list and retained task-domain gate; required retrieval order |
-| `knowledge/log.md` contract | Translated: [log](../../knowledge/log.md) and [entry contract](contracts.md#action-log) | Empty machine-readable Entries; documents actual future events without fabricated history |
-| `knowledge/validation-layout.yaml` | Translated: [starter layout](../../knowledge/validation-layout.yaml) | Explicit target paths, raw protection and scaffold classifications |
+| `knowledge/_template/adr.md` | Included: [ADR template](../_template/adr.md) | Required structure; actual ADR creation remains conditional on consequential decisions |
+| `knowledge/_template/self-topic.md` | Included: [internal template](../_template/self-topic.md) | Complete metadata/reference shapes |
+| `knowledge/_template/derived-topic.md` | Included: [derived template](../_template/derived-topic.md) | Provenance and uncertainty retained |
+| `knowledge/_template/source-topic.md` | Included: [companion template](../_template/source-topic.md) | Optional companion creation with required metadata when used |
+| `knowledge/_template/index.md` | Translated: [index template](../_template/index.md) | Native category navigation and Task / Target hints |
+| `knowledge/main.md` | Translated: [starter startup](../main.md) | Empty domain list and retained task-domain gate; required retrieval order |
+| `knowledge/log.md` contract | Translated: [log](../log.md) and [entry contract](contracts.md#action-log) | Actual starter maintenance Entries; no private domain history or fabricated events |
+| `knowledge/validation-layout.yaml` | Translated: [starter layout](../validation-layout.yaml) | Explicit target paths, raw protection and scaffold classifications |
 | `knowledge/README.md` checker/input contract | Translated: [validation guide](validation.md) | Full supported input forms and limitations; native command/paths |
 | `scripts/validate_knowledge.py` | Included byte-for-byte: [checker](../../scripts/knowledge/validate_knowledge.py) | Selected optional reference implementation; standard library, read-only |
 | Checker runtime/entry point | Native adapter: [check.sh](../../scripts/knowledge/check.sh) | Runtime selection without installation; exit 2 when unavailable |

@@ -7,7 +7,7 @@ description: Retrieve and curate evidence-backed durable knowledge using approve
 
 Use this method with [AGENTS.md](../../../AGENTS.md), the
 [task-domain gate](../../../knowledge/main.md#task-domain-gate), and the
-[configured adoption map](../../../docs/knowledge/adoption.md). This starter adopts the
+[configured adoption map](../../../knowledge/_system/adoption.md). This starter adopts the
 complete knowledge-management capability; the current assistant performs its
 assessment responsibilities without requiring specialist agents.
 
@@ -96,7 +96,7 @@ checker, translated checks, or the optional portable
 requires Python 3.10+ standard library only and an explicit target classification
 layout; the [example layout](../../../knowledge/validation-layout.yaml) is illustrative.
 Its bounded YAML input forms, typed parse errors, and resource limits are documented
-in the [checker guide](../../../docs/knowledge/validation.md#supported-input-forms); these limits
+in the [checker guide](../../../knowledge/_system/validation.md#supported-input-forms); these limits
 do not narrow the portable metadata contract or a compatible target checker.
 It checks metadata, local links and supported anchors, hints, ADR structure, and log
 integrity, rejects duplicate keys, and never executes reference commands or checks
@@ -115,7 +115,7 @@ links and commands consistently; do not copy the example tree wholesale.
 
 ## Report
 
-Return the authoritative [Knowledge Outcome](../../../docs/knowledge/contracts.md#knowledge-outcome)
+Return the authoritative [Knowledge Outcome](../../../knowledge/_system/contracts.md#knowledge-outcome)
 with `applicable`, `status`, mandatory `reason`, `evidence`, `files_changed`,
 `checks`, and `remaining_work`. `updated` requires eligible completed writes and
 passed applicable checks after final writes; `no_change` requires an actual
@@ -187,4 +187,4 @@ that did not occur.
 Local adaptation of agent-harness-concept `a05a718dd96218abd077adc258b9bf484121a929`
 (v0.3.0), accessed 2026-10-15. Native path translations, retained starter rules,
 supporting assets and compatibility evidence are in the
-[adoption map](../../../docs/knowledge/adoption.md).
+[adoption map](../../../knowledge/_system/adoption.md).

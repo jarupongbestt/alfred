@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-10-15T03:03:07.159401Z",
+  "phase": "preflight",
+  "command": "sh scripts/knowledge/check.sh",
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "native_markdown_links": {
+    "pages_checked": 15,
+    "errors": []
+  },
+  "old_system_locations_removed": true,
+  "retained_evidence_bytes_preserved": 1,
+  "upstream_hashes_verified": 22,
+  "active_validator_byte_identical": true
+}
