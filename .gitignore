@@ -1,0 +1,40 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Credentials and tokens
+.secrets/
+credentials.json
+token.json
+
+# Generated files and caches
+*.log
+!knowledge/log.md
+*.tmp
+.tmp/
+*.swp
+__pycache__/
+*.py[cod]
+node_modules/
+.DS_Store
+Thumbs.db
+
+.agents/skills
+.claude/skills
+
+# Keep real project memory local in this starter repository.
+# Review and explicitly allow a path before publishing any new knowledge.
+/knowledge/*
+!/knowledge/main.md
+!/knowledge/log.md
+!/knowledge/validation-layout.yaml
+!/knowledge/_template/
+!/knowledge/_example/
+!/knowledge/inbox/
+/knowledge/inbox/*
+!/knowledge/inbox/sources/
+/knowledge/inbox/sources/*
+!/knowledge/inbox/sources/agent-harness-concept-2026-10-15-a05a718/
+/outputs/

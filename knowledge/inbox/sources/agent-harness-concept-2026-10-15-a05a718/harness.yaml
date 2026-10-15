@@ -1,0 +1,734 @@
+version: "0.3.0"
+name: portable-agent-harness
+
+application:
+  protocol: APPLY.md
+  folder_layout: conceptual_not_prescriptive
+  coordination_language: en
+  user_facing_language: follow_user_input
+  allow_hybrid_user_facing_response: true
+  adoption:
+    supported_scopes:
+      - full_workflow
+      - selected_capabilities
+      - selected_roles
+    selection_rule: "Infer scope from the request when clear; otherwise inspect first and ask only unresolved scope questions."
+    record_unselected_and_omitted: true
+    record_dependencies: true
+    planner_and_implementer_require_minimal_main_agent_coordinator: true
+    full_workflow_includes_knowledge_management: true
+    knowledge_only_installs_lifecycle_or_agents: false
+    knowledge_only_requires_models_or_run_state: false
+    partial_scope_without_knowledge_reports: outside_scope
+    ask_choices_only_when_required_by_selected_scope: true
+    preserve_existing_equivalents_when_suitable: true
+  require_user_choices_before_adapter_changes:
+    required_before_target_writes:
+      - platform_identity
+      - adoption_scope
+    ask_only_when_unresolved: true
+    conditional_on_selected_scope:
+      existing_instruction_migration: "Ask only if a conflict or migration decision remains unresolved."
+      model_policy: "Ask only if the selected scope creates agents and no suitable policy already exists."
+      knowledge_location: "Ask only if full workflow or partial adoption includes knowledge management and no suitable existing system can be reused; approval is required before creating or moving it."
+      run_state_location: "Ask only if selected capabilities require persisted run state and no suitable existing location exists."
+  model_names_are_time_sensitive: true
+  native_convention_discovery:
+    required: true
+    read_only: true
+    required_before:
+      - concept_mapping
+      - file_map_proposal
+      - target_write
+    identify:
+      - platform
+      - platform_version
+      - operating_mode
+      - host_runtime
+    identity_policy:
+      required: true
+      if_missing_or_ambiguous:
+        allowed_action: minimal_read_only_clarification
+        mapping_allowed: false
+        approval_to_proceed_allowed: false
+        target_writes_allowed: false
+        unresolved_result: blocked
+    inspect:
+      - existing_target_instructions
+      - native_configuration
+      - agent_subagent_support
+      - skills
+      - permissions
+      - checks
+      - knowledge_and_run_state
+    evidence:
+      first_party_sources_required: true
+      required_fields:
+        - accessed_date
+        - applicable_platform_version
+        - applicable_operating_mode
+        - finding
+        - confidence
+        - verification_evidence_ref
+      source_reference:
+        exactly_one_of:
+          - source_url
+          - source_path
+        source_path_must_be_exact: true
+      mapped_capability_fields:
+        - exact_native_destination
+        - mechanism
+        - verification_evidence_ref
+    verify_host_capabilities: true
+    unknown_policy: stop_and_ask_or_report_blocked
+    allow_guessing_paths: false
+    output_shape_guard:
+      required_before_approval: true
+      require_native_layout_preview: true
+      source_tree_reproduction_forbidden: true
+      fail_if_unapproved_source_paths_are_added: true
+      source_tree_paths:
+        - adapters/
+        - knowledge/
+        - prompts/
+        - schemas/
+        - skills/
+      source_paths_allowed_only_when:
+        - already_present_in_target
+        - independently_required_by_target
+        - explicitly_approved
+    adapter_output:
+      require_native_destinations: true
+      unknown_destination_policy: blocked
+  discovery_invariants:
+    per_destination_status_required: true
+    status_vocabulary:
+      - verified
+      - unknown
+      - blocked
+    verified_requires:
+      - every_relevant_destination_status_verified
+      - every_relevant_evidence_status_verified
+      - every_reuse_or_translate_entry_has_exact_native_destination
+      - every_reuse_or_translate_entry_has_mechanism
+      - every_reuse_or_translate_entry_has_verification_evidence_ref
+    invalid_evidence:
+      confidence_values:
+        - low
+      statuses:
+        - stale
+        - contradictory
+        - low_confidence
+        - unknown
+      maps_to_status: unknown
+      may_map_to_blocked: true
+    unknown_or_blocked:
+      approval_decision_forbidden:
+        - proceed
+      target_writes_forbidden: true
+      mapping_and_file_map_forbidden: true
+      required_behavior: stop_and_ask_or_report_blocked
+  native_post_write_verification:
+    required: true
+    required_after: target_write
+    file_existence_alone_is_insufficient: true
+    per_destination: true
+    status_vocabulary:
+      - verified
+      - unknown
+      - blocked
+    required_record_fields:
+      - capability
+      - status
+      - exact_native_destination
+      - mechanism
+      - verification_evidence_ref
+      - accessed_date
+      - applicable_platform_version
+      - applicable_operating_mode
+      - finding
+      - confidence
+    evidence:
+      required: true
+      source_reference:
+        exactly_one_of:
+          - source_url
+          - source_path
+        source_path_must_be_exact: true
+    result_rules:
+      verified_requires:
+        - every_written_destination_has_a_record
+        - every_written_destination_status_verified
+        - every_record_has_required_evidence
+      unknown_or_blocked:
+        approval_decision_forbidden:
+          - proceed
+        stop_before_additional_writes: true
+        run_status: blocked
+        success_claim_forbidden: true
+    failure_behavior:
+      missing_record_or_evidence: blocked
+      failed_native_check: blocked
+      unknown_evidence: blocked
+      stop_before_additional_writes: true
+      approval_decision_proceed_forbidden: true
+
+# The platform adapter maps these logical capabilities to native tools.
+main_agent:
+  # This is the harness repository's own bootstrap source, not a universal
+  # target-repository destination. Target destinations require discovery and
+  # explicit approval.
+  bootstrap: AGENTS.md
+  bootstrap_role: source_repository_bootstrap
+  bootstrap_target_destination: null
+  bootstrap_target_destination_policy: independently_discovered_and_approved
+  prompt: AGENTS.md
+  prompt_role: source_repository_bootstrap
+  prompt_target_destination: null
+  prompt_target_destination_policy: independently_discovered_and_approved
+  owns:
+    - orchestration
+    - clarification
+    - approval
+    - routing
+    - recovery
+    - finalization
+  intent_gate:
+    before: intake
+    classifier: meaning_and_conversation_context_not_punctuation
+    direct_answer:
+      includes: [informational_questions, explanations, discussion, status_requests]
+      lookup: minimal_read_only_when_needed_for_answer
+      creates_new_run_ticket_plan_or_specialist_invocation: false
+      enters_full_lifecycle: false
+      requires_per_message_knowledge_curation: false
+    execution:
+      includes: [clear_action_requests, action_phrased_as_question, substantial_explicitly_requested_audits_or_research]
+      action_question_example: "can you fix this?"
+      new_independent_objective: route_to_intake
+      continuation: advance_next_authorized_stage_in_existing_run
+    active_authorized_run:
+      questions: answer_then_resume_same_work
+      preserve: [run_id, ticket, plan, run_state, authorized_work]
+      question_alone_cancels_restarts_or_reenters_stages: false
+      changed_requirements:
+        triggers_source: workflow.reentry
+        require_recorded_trigger_evidence_and_changed_artifact: true
+        material_plan_change_requires_renewed_approval: true
+    contextual_affirmative:
+      example: "Ok"
+      after_factual_explanation: acknowledgement_no_edits
+      after_concrete_actionable_proposal:
+        meaning: approach_selection
+        action: advance_necessary_authorized_intake_and_planning
+        project_edits_require_complete_plan_approval: true
+      after_actual_approval_request_for_presented_complete_plan:
+        meaning: explicit_plan_approval
+        action: proceed_with_approved_work
+        duplicate_approval_request: false
+  communication_policy:
+    audience: user_facing
+    lead_with: outcome_action_or_decision
+    language: follow_user_input_and_natural_mix
+    tone: follow_user_preference
+    clarity: "Use familiar words, clear actors, focused topics, stable terms, and conditions beside the actions they govern."
+    preserve: [facts, numbers, units, negation, exceptions, evidence, confidence, uncertainty, obligations]
+    preserve_exact: [technical_names, code, paths, commands, quoted_text, artifact_fields]
+    short_messages: lightweight_bootstrap_policy
+    detailed_skill: human-readable-communication
+    detailed_skill_trigger: "long or complex explanations, user-facing Plan presentations, and reports"
+    automatically_rewrite_specialist_artifacts: false
+    changes_roles_artifact_fields_approval_or_lifecycle: false
+    guarantees_underlying_content_truth: false
+  run_continuity:
+    same_objective:
+      reuse: [run_id, ticket, plan, run_state]
+      continuation_examples:
+        - questions
+        - clarifications
+        - approvals
+        - selection_of_an_approach
+        - research_to_implementation
+      ticket_or_plan_revision_requires_permitted_trigger: true
+      routine_progress_and_task_results_use_existing_run_state: true
+    new_run:
+      allowed_for: independent_objective
+      may_bypass_stage_reentry_rules: false
+    before_stage_reentry:
+      record:
+        - exact_permitted_trigger
+        - supporting_evidence
+        - changed_requirement_assumption_or_artifact
+      permitted_triggers_source: workflow.reentry
+    missing_implementation_detail:
+      planner_update_requires_existing_permitted_trigger: true
+      fresh_intake_when_ticket_unchanged: false
+
+workflow:
+  stages:
+    - intake
+    - clarify
+    - plan
+    - approval
+    - test_engineer
+    - implement
+    - verify
+    - review
+    - knowledge_update
+    - finalize
+  stage_order:
+    intake_must_complete_before_planning: true
+    resolve_required_clarification_before_planning: true
+    planner_completes_all_slices_before_approval: true
+    implementation_begins_only_after_full_plan_approval: true
+    verify_after_all_test_engineer_and_builder_work: true
+    review_after_verification: true
+    knowledge_update_after_review: true
+    finalize_after_knowledge_outcome: true
+  knowledge_update:
+    required_for: full_workflow
+    partial_adoption_trigger: scope_includes_knowledge_management
+    separate_per_run_opt_in: false
+    assess_every_full_workflow_run: true
+    retain_eligible_evidence_backed_new_knowledge: true
+    source_repository_example_tree_is_default_destination: false
+    outcome:
+      contract: schemas/artifacts.md#knowledge-outcome
+      applicable_statuses: [updated, no_change, blocked]
+      outside_adoption_scope_status: outside_scope
+      reason_required: true
+      empty_knowledge_updates_proves_assessment: false
+      updated_requires: [completed_writes, passed_applicable_checks_after_final_write]
+      no_change_requires: assessed_no_eligible_durable_learning
+      blocked_requires: [reason, remaining_work]
+      write_or_check_failure_status: blocked
+      unavailable_required_check_status: blocked
+  finalization:
+    knowledge_outcome_and_reason_required: true
+    completed_with_blocked_knowledge_outcome: false
+  approval:
+    required_before_edit: true
+    options:
+      - proceed
+      - ask_or_adjust
+  execution:
+    scheduler: dependency_aware
+    parallel_independent_slices: true
+    parallel_specialist_roles:
+      - test_engineer
+      - implementer
+    overlap_constraints:
+      only_listed_roles_may_overlap_active_specialist_work: true
+      require_dependencies_ready: true
+      require_nonconflicting_scopes_files_resources_mutable_state_and_ordering: true
+      sequence_builder_after_test_when_builder_depends_on_test_output: true
+      verifier_reviewer_knowledge_curator_and_other_specialists_overlap_active_work: false
+      all_test_engineer_and_implementer_work_completes_before_verification: true
+      verification_completes_before_review: true
+      later_specialist_stages_are_serial: true
+    default_mode: in_place_uncommitted
+    allow_commit: false
+    allow_push: false
+    allow_merge: false
+  reentry:
+    intake:
+      default_passes: 1
+      allowed_triggers:
+        - user_clarification_changes_ticket
+        - newly_discovered_ticket_mismatch
+    planner:
+      default_passes: 1
+      full_plan_before_approval: true
+      full_plan_before_implementation: true
+      allowed_triggers:
+        - explicit_human_plan_feedback
+        - invalid_plan
+        - scope_change
+        - acceptance_criteria_change
+        - dependency_invalidation
+        - permission_invalidation
+        - platform_invalidation
+    implementer:
+      retry_on:
+        - verification_test_failure
+        - acceptance_failure_with_valid_scope
+        - verification_lint_failure
+        - verification_build_failure
+        - verification_check_failure
+        - verifier_failure
+      replan_only_on:
+        - invalid_plan
+        - scope_change
+        - acceptance_criteria_change
+        - dependency_invalidation
+        - permission_invalidation
+        - platform_invalidation
+      max_retries_per_slice: 2
+      ordinary_failure_route: retry_affected_implementer_slice
+      ordinary_failures_restart_intake_or_planner: false
+      exhausted_retry_route: escalate
+      replan_requires_explicit_feedback_or_objective_plan_invalidation: true
+      material_replan_requires_renewed_approval: true
+
+delegation:
+  required: true
+  fallback: "If the host has no subagent capability, preserve role boundaries and report the limitation."
+
+routing:
+  tier_0:
+    planner: junior
+    implementer: junior
+    review: lightweight
+  tier_1:
+    planner: standard
+    implementer: task_level
+    review: standard
+  tier_2:
+    planner: senior
+    implementer: task_level
+    review: independent
+
+testing:
+  feature: create_or_extend
+  bugfix: reproduce_first
+  refactor: regression_only
+  cosmetic: smoke_or_visual
+  test_author: test_engineer
+  implementer_can_modify_tests: false
+
+skills:
+  source_root: skills/
+  provenance_registry: skills/origins.md
+  materialization_source_registry: materialization_policy.registry_entries
+  definitions:
+    - context-engineering
+    - specification
+    - clarification
+    - root-cause
+    - task-decomposition
+    - source-driven-development
+    - incremental-implementation
+    - test-driven-development
+    - code-review
+    - security-and-hardening
+    - documentation-and-adrs
+    - knowledge-base
+    - karpathy-guidelines
+    - doubt-driven-development
+    - human-readable-communication
+  materialization_policy:
+    distinguish_historical_provenance_from_application_source: true
+    choose_exactly_one_materialization_source_per_skill: true
+    upstream_and_local_duplicate_materialization_forbidden: true
+    upstream_branch_candidates_are_mutable: true
+    resolve_full_commit_sha_and_accessed_date_at_application_time: true
+    inspect_candidate_body_and_required_supporting_assets_before_selection: true
+    host_without_native_skill_support:
+      automatic_local_fallback: false
+      require_one_approved_outcome:
+        - translate_into_supported_native_mechanism
+        - omit_with_reason
+    compatibility_precedence:
+      harness_contracts_override_generic_skill_methods:
+        - lifecycle
+        - approval
+        - roles
+        - no_commit
+        - concurrency
+        - artifact_contracts
+      if_upstream_body_requires_changes: classify_as_local_adaptation
+    registry_entries:
+      context-engineering:
+        materialization_default: upstream_direct_if_compatible
+        local_definition: skills/context-engineering/SKILL.md
+        local_fallback:
+          use_when: "the upstream candidate is unavailable or has a source-specific format/compatibility issue, and the host can load the local definition natively"
+          requires_native_skill_support: true
+          record_fallback: true
+        upstream_candidates:
+          - kind: direct_same_slug_candidate
+            repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/context-engineering/SKILL.md
+            mutable_ref: true
+            compatibility_note: "Inspect before use; harness lifecycle, approval, roles, no-commit, concurrency, and contracts take precedence."
+      test-driven-development:
+        materialization_default: upstream_direct_if_compatible
+        local_definition: skills/test-driven-development/SKILL.md
+        local_fallback:
+          use_when: "the upstream candidate is unavailable or has a source-specific format/compatibility issue, and the host can load the local definition natively"
+          requires_native_skill_support: true
+          record_fallback: true
+        upstream_candidates:
+          - kind: direct_same_slug_candidate
+            repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/test-driven-development/SKILL.md
+            mutable_ref: true
+            compatibility_note: "Use only for Test Engineer test authoring where applicable; harness role boundaries and contracts take precedence."
+      security-and-hardening:
+        materialization_default: upstream_direct_if_compatible
+        local_definition: skills/security-and-hardening/SKILL.md
+        local_fallback:
+          use_when: "the upstream candidate is unavailable or has a source-specific format/compatibility issue, and the host can load the local definition natively"
+          requires_native_skill_support: true
+          record_fallback: true
+        upstream_candidates:
+          - kind: direct_same_slug_candidate
+            repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/security-and-hardening/SKILL.md
+            mutable_ref: true
+            compatibility_note: "Inspect before use; harness scope, role, and artifact contracts take precedence."
+      documentation-and-adrs:
+        materialization_default: local_definition
+        local_definition: skills/documentation-and-adrs/SKILL.md
+        source_classification: local_adaptation
+        upstream_candidates: []
+        supporting_assets:
+          required: [knowledge/_template/adr.md, skills/knowledge-base/SKILL.md]
+          required_assets_may_be_translated_to_approved_native_destinations: true
+          conditional_on_reference_checker_selection: [scripts/validate_knowledge.py]
+          illustrative_references: [knowledge/_example/self/adr-0001-knowledge-layout.md, knowledge/log.md, knowledge/validation-layout.yaml]
+          target_specific: [knowledge_validation_layout, knowledge_check_command]
+          inventory_dispositions: [included, translated, referenced, omitted]
+          require_disposition_reasons_and_rewritten_or_removed_projected_links: true
+          maintainer_tests_automatically_materialized_or_run: false
+      doubt-driven-development:
+        materialization_default: upstream_direct_if_compatible
+        local_definition: skills/doubt-driven-development/SKILL.md
+        local_fallback:
+          use_when: "the upstream candidate is unavailable or has a source-specific format/compatibility issue, and the host can load the local definition natively"
+          requires_native_skill_support: true
+          record_fallback: true
+        upstream_candidates:
+          - kind: direct_same_slug_candidate
+            repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/doubt-driven-development/SKILL.md
+            mutable_ref: true
+            compatibility_note: "Keep orchestration in Main Agent; do not add this to Reviewer persona. External model/CLI actions require separate authorization."
+      source-driven-development:
+        materialization_default: local_definition
+        local_definition: skills/source-driven-development/SKILL.md
+        upstream_candidates:
+          - kind: optional_narrow_method_candidate
+            repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/source-driven-development/SKILL.md
+            mutable_ref: true
+            allowed_use: "Optional method for decisions that depend on framework documentation; not a replacement for this harness's broader source and project-knowledge method."
+            automatic_equivalence: false
+      clarification:
+        materialization_default: local_definition
+        local_definition: skills/clarification/SKILL.md
+        optional_method_candidates:
+          - repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/interview-me/SKILL.md
+            mutable_ref: true
+            automatic_equivalence: false
+          - repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/idea-refine/SKILL.md
+            mutable_ref: true
+            automatic_equivalence: false
+      specification:
+        materialization_default: local_definition
+        local_definition: skills/specification/SKILL.md
+        optional_method_candidates:
+          - repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/spec-driven-development/SKILL.md
+            mutable_ref: true
+            automatic_equivalence: false
+      task-decomposition:
+        materialization_default: local_definition
+        local_definition: skills/task-decomposition/SKILL.md
+        optional_method_candidates:
+          - repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/planning-and-task-breakdown/SKILL.md
+            mutable_ref: true
+            automatic_equivalence: false
+      root-cause:
+        materialization_default: local_definition
+        local_definition: skills/root-cause/SKILL.md
+        optional_method_candidates:
+          - repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/debugging-and-error-recovery/SKILL.md
+            mutable_ref: true
+            automatic_equivalence: false
+      code-review:
+        materialization_default: local_definition
+        local_definition: skills/code-review/SKILL.md
+        optional_method_candidates:
+          - repository: https://github.com/addyosmani/agent-skills
+            ref: main
+            path: skills/code-review-and-quality/SKILL.md
+            mutable_ref: true
+            automatic_equivalence: false
+      incremental-implementation:
+        materialization_default: local_definition
+        local_definition: skills/incremental-implementation/SKILL.md
+        upstream_candidates: []
+        excluded_upstream_same_slug_candidate:
+          repository: https://github.com/addyosmani/agent-skills
+          ref: main
+          path: skills/incremental-implementation/SKILL.md
+          reason: "Upstream requires per-slice verification/commit behavior that conflicts with this harness's serialized verification phase and no-commit default. Use only as a reference; keep materialization local unless a compatible local adaptation is explicitly created."
+      knowledge-base:
+        materialization_default: local_definition
+        local_definition: skills/knowledge-base/SKILL.md
+        upstream_candidates: []
+      karpathy-guidelines:
+        materialization_default: local_definition
+        local_definition: skills/karpathy-guidelines/SKILL.md
+        upstream_candidates: []
+      human-readable-communication:
+        materialization_default: local_definition
+        local_definition: skills/human-readable-communication/SKILL.md
+        source_classification: local_adaptation
+        upstream_candidates: []
+        upstream_influence:
+          repository: https://github.com/danyuchn/asd-ste100-skill
+          path: SKILL.md
+          version: "0.4.0"
+          resolved_commit_sha: 7d4a135a199a5d7447c4886bcd7ffe742a627bc9
+          accessed_date: "2026-10-02"
+          compatibility_decision: "Use the relaxed, self-contained local adaptation; strict English rules, word caps, and rewriting examples are incompatible with the approved multilingual presentation method."
+        supporting_assets:
+          required: [skills/human-readable-communication/LICENSE]
+          included: [skills/human-readable-communication/LICENSE]
+          omitted:
+            - path: references/writing-rules.md
+              reason: "Strict English summary replaced by the self-contained relaxed local method."
+            - path: examples/before-after.md
+              reason: "Some examples change obligation or add content, conflicting with meaning preservation."
+            - path: scripts/ste-lint.py
+              reason: "Hard English word caps and punctuation checks are incompatible; no replacement linter."
+  role_map_policy:
+    knowledge_base_required_for: full_workflow_or_partial_scope_including_knowledge_management
+    selected_roles_without_knowledge_may_omit_knowledge_base_with_reason: outside_adoption_scope
+    per_run_knowledge_opt_in: false
+  role_map:
+    main_agent:
+      required: [context-engineering, clarification, knowledge-base]
+      conditional:
+        doubt-driven-development: "non-trivial, high-stakes, unfamiliar, or hard-to-verify decisions"
+        human-readable-communication: "long or complex explanations, user-facing Plan presentations, and reports"
+      artifact_contract: schemas/artifacts.md
+    intake:
+      required: [specification, clarification, source-driven-development, knowledge-base]
+      conditional:
+        root-cause: "bugs or failures"
+      artifact_contract: schemas/artifacts.md
+    planner:
+      required: [task-decomposition, context-engineering, source-driven-development, knowledge-base]
+      conditional:
+        root-cause: "bug with Intake evidence incomplete, contradictory, or insufficient to justify the plan"
+      artifact_contract: schemas/artifacts.md
+    test_engineer:
+      required: [test-driven-development]
+      conditional: {}
+      artifact_contract: schemas/artifacts.md
+    implementer:
+      required: [karpathy-guidelines, incremental-implementation]
+      conditional:
+        root-cause: "before retrying a failed check"
+        security-and-hardening: "when touching sensitive boundaries"
+      artifact_contract: schemas/artifacts.md
+    verifier:
+      required: []
+      conditional: {}
+      artifact_contract: schemas/artifacts.md
+    reviewer:
+      required: [code-review, karpathy-guidelines]
+      conditional:
+        security-and-hardening: "security-sensitive work"
+        root-cause: "findings concern an unclear failure"
+      artifact_contract: schemas/artifacts.md
+    knowledge_curator:
+      required: [knowledge-base, documentation-and-adrs]
+      conditional: {}
+      artifact_contract: schemas/artifacts.md
+  supporting_references:
+    - harness-artifacts
+  root_cause:
+    enabled: true
+    used_by:
+      - intake
+      - planner
+      - implementer
+      - reviewer
+    planner_trigger: "bug with Intake evidence incomplete, contradictory, or insufficient to justify the plan"
+  doubt_driven_development:
+    used_by:
+      - main_agent
+    trigger: "non-trivial, high-stakes, unfamiliar, or hard-to-verify decisions"
+    reviewer_context: fresh
+    require_external_cli_or_model: false
+
+knowledge:
+  included_in_full_workflow: true
+  management_is_independently_selectable: true
+  eligible_learning_requires_retention_in_approved_configured_system: true
+  missing_paths_or_write_rules: blocked_never_invent_layout
+  startup_navigation_roles: [main_agent, intake, planner]
+  retrieval_order: [configured_startup, matching_index_navigation_hints, relevant_topic, focused_source_refs]
+  broader_scan_requires_recorded_reason: absent_stale_contradictory_or_insufficient_navigation
+  navigation_hints:
+    heading: Navigation Hints
+    table_columns: [Task, Target]
+    target: one_existing_local_page_or_category_link
+    empty_state: "No navigation hints yet."
+  topic_metadata: [type, description, source_refs, updated, status]
+  typed_reference_kinds: [local, url, command, artifact]
+  command_refs_are_inert: true
+  command_alone_establishes_evidence: false
+  preserve_category_protection: true
+  after_curator_final_write_checks_required: true
+  unavailable_required_check_status: blocked
+  integrity_check_implementations: [compatible_existing_target_checker, translated_compatible_checks, optional_reference_checker]
+  reference_checker_runtime: "Python 3.10+ standard library only; no third-party packages or installation step"
+  reference_checker_reader_limits_do_not_narrow_portable_contracts: true
+  python_required_for_all_adoptions: false
+  target_path_policy: "Discover and preserve the target's existing knowledge paths and conventions; propose a new location only when needed and approved."
+  target_paths:
+    root: discovered_or_explicitly_approved
+    startup_entry: discovered_or_explicitly_approved
+    action_log: discovered_or_explicitly_approved_or_none
+  source_repository_example:
+    root: knowledge/
+    domain_root: knowledge/domain/
+    domain_root_is_target_default: false
+    startup_reads:
+      - knowledge/main.md
+    optional_reads:
+      - knowledge/log.md
+    run_state: .harness/runs/
+    internal_learning_folder: domain/self/
+    external_compilation_folder: domain/derived/
+    raw_external_material_folder: domain/sources/
+    templates_folder: _template/
+    examples_folder: _example/
+    require_lint_after_update: true
+    validation_layout: knowledge/validation-layout.yaml
+    integrity_check: "python3 -B -S scripts/validate_knowledge.py --repo-root . --knowledge-root knowledge --layout knowledge/validation-layout.yaml"
+
+roles:
+  intake: prompts/intake.md
+  planner: prompts/planner.md
+  test_engineer: prompts/test-engineer.md
+  implementer: prompts/implementer.md
+  verifier: prompts/verifier.md
+  reviewer: prompts/reviewer.md
+  knowledge_curator: prompts/knowledge-curator.md
+
+artifacts:
+  contracts: schemas/artifacts.md
+
+skill_provenance:
+  registry: skills/origins.md
+  rule: "Every skill must declare an origin or project-specific status in the registry."

@@ -1,0 +1,8 @@
+version: 1
+raw_source_dirs: [domain/sources]
+source_companion_files: []
+template_dirs: [_template]
+example_dirs: [_example]
+index_files: [domain/index.md, _template/index.md, _example/index.md]
+navigation_files: [README.md, main.md, domain/self/README.md, domain/derived/README.md, domain/sources/README.md]
+log_files: [log.md]

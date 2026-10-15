@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-10-15T02:37:26.036732Z",
+  "scope": "Clean starter template; no real project domains, attachments, outputs, or local knowledge history",
+  "knowledge_check": {
+    "command": "sh scripts/knowledge/check.sh",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "upstream": {
+    "commit": "a05a718dd96218abd077adc258b9bf484121a929",
+    "files_verified": 22,
+    "hashes_match": true,
+    "active_validator_byte_identical": true
+  },
+  "active_markdown_links": {
+    "pages_checked": 22,
+    "errors": []
+  }
+}

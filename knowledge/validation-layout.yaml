@@ -1,0 +1,15 @@
+version: 1
+raw_source_dirs:
+  - inbox/sources
+source_companion_files: []
+template_dirs:
+  - _template
+example_dirs:
+  - _example
+index_files:
+  - _template/index.md
+  - _example/index.md
+navigation_files:
+  - main.md
+log_files:
+  - log.md
