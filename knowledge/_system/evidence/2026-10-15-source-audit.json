@@ -1,0 +1,179 @@
+{
+  "assessed_at": "2026-10-15T03:15:54.407812Z",
+  "repository": "https://github.com/jarupongbestt/agent-harness-concept",
+  "live_head": "a05a718dd96218abd077adc258b9bf484121a929",
+  "baseline": "a05a718dd96218abd077adc258b9bf484121a929",
+  "version": "0.3.0",
+  "source_receipt": "knowledge/inbox/sources/agent-harness-concept-2026-10-15-audit/manifest.json",
+  "source_archive_is_reference_only": true,
+  "finding": "No mandatory knowledge-base or ADR source clauses were deleted by the native adaptation. The source_refs contract was already present, but native authoring examples/template routing and YAML-style instructions were insufficiently explicit; local log/layout labels incorrectly called native configuration illustrative.",
+  "changes": [
+    "Add a copyable five-field frontmatter shape and a four-kind source-reference writing table to the skill.",
+    "Link all topic templates and explain category/classification and claim-level evidence use.",
+    "Name actual configured log/layout accurately.",
+    "Remove the duplicated _system tree line in the workspace bootstrap.",
+    "Document the measured distinction between command-only source_refs provenance and insufficient command-only recorded evidence."
+  ],
+  "requirements": [
+    {
+      "requirement": "Retrieval and bounded expansion",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#retrieve-before-scanning",
+        "SPEC.md#knowledge-retrieval-and-integrity",
+        "harness.yaml (knowledge mapping, lines 673-718)"
+      ],
+      "native_targets": [
+        "AGENTS.md#startup",
+        "knowledge/main.md",
+        ".codex/skills/knowledge-base/SKILL.md#retrieve-before-scanning"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Startup, hints, topic and focused sources remain ordered; expansion needs evidence and a reason."
+    },
+    {
+      "requirement": "Durable assessment and curation",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#choose-durable-changes",
+        "prompts/knowledge-curator.md"
+      ],
+      "native_targets": [
+        ".codex/skills/knowledge-base/SKILL.md#choose-durable-changes",
+        "AGENTS.md#write-rules"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Update, merge, split, create or skip with evidence; retain uncertainty and avoid task diaries."
+    },
+    {
+      "requirement": "Five topic metadata fields",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#topic-and-reference-contract",
+        "knowledge/_template/self-topic.md"
+      ],
+      "native_targets": [
+        ".codex/skills/knowledge-base/SKILL.md#topic-and-reference-contract",
+        "knowledge/_system/contracts.md#topic-lifecycle"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "type, description, nonempty source_refs, actual updated date and status were already present. The skill now also shows the YAML shape and direct templates."
+    },
+    {
+      "requirement": "Four reference kinds and evidence",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#topic-and-reference-contract",
+        "harness.yaml (knowledge mapping, lines 673-718)"
+      ],
+      "native_targets": [
+        ".codex/skills/knowledge-base/SKILL.md#write-frontmatter-and-source_refs",
+        "knowledge/_system/contracts.md#typed-references"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "local, url, artifact and command retain typed mapping rules, bounded paths and inert commands. Added an authoring table; evidence must support claims beyond syntax."
+    },
+    {
+      "requirement": "Categories, provenance and re-sync",
+      "upstream_sections": [
+        "knowledge/domain/self/README.md",
+        "knowledge/domain/derived/README.md",
+        "knowledge/domain/sources/README.md",
+        "skills/knowledge-base/SKILL.md"
+      ],
+      "native_targets": [
+        "AGENTS.md#document-placement",
+        ".codex/skills/knowledge-base/SKILL.md",
+        "knowledge/_system/adoption.md#category-protection-and-evidence"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Native self/derived/source protections, source-first intake and explicit derived re-sync remain in force; raw sources are unchanged."
+    },
+    {
+      "requirement": "Topic and ADR lifecycle",
+      "upstream_sections": [
+        "skills/documentation-and-adrs/SKILL.md",
+        "knowledge/_template/adr.md"
+      ],
+      "native_targets": [
+        ".codex/skills/documentation-and-adrs/SKILL.md",
+        "knowledge/_template/adr.md",
+        "knowledge/_system/contracts.md#topic-lifecycle"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Ordinary supersession and all ADR statuses/sections, retained human acceptance evidence and historical transitions are preserved."
+    },
+    {
+      "requirement": "Explicit template/example classifications",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#topic-and-reference-contract",
+        "knowledge/README.md"
+      ],
+      "native_targets": [
+        "knowledge/validation-layout.yaml",
+        "knowledge/_template",
+        "knowledge/_example",
+        ".codex/skills/knowledge-base/SKILL.md"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Configured templates alone allow placeholders; examples are fictional and explicitly marked. Native indexes/raw/companions require actual classification."
+    },
+    {
+      "requirement": "Actual structured action log",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#write-log-then-check",
+        "knowledge/log.md"
+      ],
+      "native_targets": [
+        "knowledge/log.md",
+        "knowledge/_system/contracts.md#action-log"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Actual timestamps, existing paths, evidence and check outcomes remain required; legacy history is retained without fabricated events."
+    },
+    {
+      "requirement": "Final-write checks and runtime",
+      "upstream_sections": [
+        "skills/knowledge-base/SKILL.md#write-log-then-check",
+        "knowledge/README.md",
+        "scripts/validate_knowledge.py"
+      ],
+      "native_targets": [
+        "scripts/knowledge/check.sh",
+        "scripts/knowledge/validate_knowledge.py",
+        "knowledge/_system/validation.md"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "The selected checker remains byte-identical. Required failed/unavailable checks are blocked, and final checks follow all writes including logs."
+    },
+    {
+      "requirement": "Seven-field Knowledge Outcome",
+      "upstream_sections": [
+        "schemas/artifacts.md#knowledge-outcome",
+        "prompts/knowledge-curator.md"
+      ],
+      "native_targets": [
+        "knowledge/_system/contracts.md#knowledge-outcome",
+        ".codex/skills/knowledge-base/SKILL.md#report"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "All seven fields, mandatory reason, actual checks, no_change assessment and blocked remaining-work rules are retained."
+    },
+    {
+      "requirement": "Native adoption and supporting assets",
+      "upstream_sections": [
+        "APPLY.md",
+        "skills/README.md",
+        "skills/origins.md"
+      ],
+      "native_targets": [
+        "knowledge/_system/adoption.md",
+        ".codex/skills/knowledge-base/SKILL.md",
+        ".codex/skills/documentation-and-adrs/SKILL.md"
+      ],
+      "disposition": "translated_or_included",
+      "assessment": "Native path translations, source provenance, required ADR assets and optional implementation distinctions remain explicit. Agent orchestration remains outside this scope."
+    }
+  ],
+  "limits": [
+    "This review covers the selected knowledge-management capability, not agent orchestration or run-state storage.",
+    "Contract comparison and structural checks do not prove every historical project claim or authenticate human decisions."
+  ],
+  "checker_reference_evidence_distinction": "The pinned checker permits command-only topic source_refs as provenance, rejects command-only structured evidence, and does not establish topic claim support."
+}

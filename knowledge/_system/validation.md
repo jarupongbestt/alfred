@@ -38,6 +38,12 @@ acceptance. References outside the repository are errors; preserve needed artifa
 inside the repository rather than exempting broken references. See the
 [actual classifications](../validation-layout.yaml).
 
+The pinned checker accepts a topic whose `source_refs` contains only commands
+as syntactically valid provenance. It rejects command-only lists in structured
+`evidence` fields, such as action-log and check evidence. Claim support in a
+topic body still requires substantive review; a passing metadata check does not
+establish sufficient evidence.
+
 The reader limits below describe this reference implementation, not a narrowed
 portable metadata contract. The upstream maintainer regression tests are retained
 as source; they are not installed as consumer tests.

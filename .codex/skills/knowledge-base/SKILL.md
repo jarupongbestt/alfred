@@ -1,6 +1,6 @@
 ---
 name: knowledge-base
-description: Retrieve and curate evidence-backed durable knowledge using approved paths, metadata, navigation, and integrity checks.
+description: Retrieve, write, curate, and validate durable project knowledge with source references and protected raw inputs.
 ---
 
 # Knowledge Base
@@ -68,6 +68,52 @@ file. URL references use HTTP(S) with a hostname. Command references are inert
 strings and cannot establish evidence by themselves; use retained output or
 another supporting source. Never execute a reference just to validate it.
 
+### Write frontmatter and source_refs
+
+For a new page, use the [internal topic](../../../knowledge/_template/self-topic.md),
+[external compilation](../../../knowledge/_template/derived-topic.md),
+[source companion](../../../knowledge/_template/source-topic.md), or
+[ADR](../../../knowledge/_template/adr.md) template for the chosen category.
+Use the [domain-index instructions](../../../knowledge/_template/index.md) when
+adding navigation. Register new indexes, raw-source directories and source
+companions in the [configured layout](../../../knowledge/validation-layout.yaml);
+their names alone do not classify them.
+
+Use block-style YAML, two-space indentation and quoted ISO dates, following this
+project's [authoring convention](../../../knowledge/_system/contracts.md#topic-lifecycle).
+This internal-topic example shows the required shape; replace every placeholder
+with actual supported content before retaining a topic:
+
+```yaml
+---
+type: self
+description: "<One-line durable finding or procedure>"
+source_refs:
+  - kind: local
+    target: "<evidence path relative to this topic>"
+updated: "<actual YYYY-MM-DD>"
+status: draft
+---
+```
+
+Choose only the references actually used to support the recorded claims:
+
+| kind | What target identifies | Evidence requirement |
+| --- | --- | --- |
+| `local` | An existing repository file, relative to the topic, such as `../sources/<file>` | Inspect its relevant content and explain which claim it supports. |
+| `url` | The exact HTTP(S) source URL | Record actual access date, version and applicability in the body; retain external inputs according to source-intake rules. |
+| `artifact` | An exact retained evidence file, relative to the topic | Use a file path, without a fragment or a freeform run ID. |
+| `command` | The exact command text as inert provenance | Pair it with retained output or other supporting evidence; never use or execute the command reference as proof by itself. |
+
+In the body, connect findings to the relevant references and distinguish user
+reports, inspected source facts and internal conclusions. Record source access
+dates and versions separately from the page's `updated` date. A reference list
+or a `current` status alone does not verify a claim. The pinned checker permits
+command-only `source_refs` as provenance; separately assess whether each claim
+has supporting evidence. For an actual worked metadata
+shape, inspect the configured fictional examples; never cite their content as
+evidence of real project facts.
+
 Ordinary statuses are `draft`, `current`, and `superseded`; superseded pages name
 an existing local/artifact replacement in `superseded_by`. Use the
 [Documentation and ADRs method](../documentation-and-adrs/SKILL.md) for ADR
@@ -85,7 +131,7 @@ are classified by explicit configuration, never by a guessed filename.
 
 After approved edits, maintain affected topic metadata, descriptions, hints,
 indexes, links, and the configured action log. Its machine-readable entries use
-the format in the [example log](../../../knowledge/log.md); adapt the approved log
+the format in the [configured log](../../../knowledge/log.md); adapt the approved log
 path, never copy fabricated events. Record actual timestamps, actions, evidence,
 and check results. A prior check cannot certify a later log write.
 
@@ -94,7 +140,7 @@ navigation and log edits. Map applicable checks to a compatible existing target
 checker, translated checks, or the optional portable
 [validator](../../../scripts/knowledge/validate_knowledge.py). That reference implementation
 requires Python 3.10+ standard library only and an explicit target classification
-layout; the [example layout](../../../knowledge/validation-layout.yaml) is illustrative.
+layout; the [configured layout](../../../knowledge/validation-layout.yaml) defines the native classifications.
 Its bounded YAML input forms, typed parse errors, and resource limits are documented
 in the [checker guide](../../../knowledge/_system/validation.md#supported-input-forms); these limits
 do not narrow the portable metadata contract or a compatible target checker.

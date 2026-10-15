@@ -1,0 +1,61 @@
+{
+  "phase": "preflight",
+  "checked_at": "2026-10-15T03:20:45.414319Z",
+  "command": "sh scripts/knowledge/check.sh",
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "knowledge_and_adr_source_clauses_retained": true,
+  "source_comparison_method": "Exact source-body equality after documented native path/category/label translations and removal of the new authoring example.",
+  "existing_snapshot_matches_fresh_archive_files": 22,
+  "topic_templates_byte_identical": 4,
+  "validator_byte_identical": true,
+  "native_markdown_link_pages": 13,
+  "skill_quick_validation": {
+    "exit_code": 0,
+    "stdout": "Skill is valid!\n",
+    "stderr": ""
+  },
+  "authoring_example_cases": {
+    "filled_skill_example": {
+      "passed": true,
+      "diagnostic_codes": []
+    },
+    "all_four_kinds_with_retained_evidence": {
+      "passed": true,
+      "diagnostic_codes": []
+    },
+    "missing_required_source_refs": {
+      "passed": true,
+      "diagnostic_codes": [
+        "REFERENCE_INVALID"
+      ]
+    },
+    "missing_local_evidence": {
+      "passed": true,
+      "diagnostic_codes": [
+        "REFERENCE_MISSING"
+      ]
+    },
+    "escaping_reference": {
+      "passed": true,
+      "diagnostic_codes": [
+        "PATH_ESCAPE"
+      ]
+    },
+    "command_only_source_refs_are_syntax_only_provenance": {
+      "passed": true,
+      "diagnostic_codes": []
+    },
+    "command_only_recorded_evidence_rejected": {
+      "passed": true,
+      "diagnostic_codes": [
+        "REFERENCE_INVALID"
+      ]
+    },
+    "command_reference_remained_inert": {
+      "passed": true
+    }
+  },
+  "knowledge_skill_authoring_matches_workspace": true
+}

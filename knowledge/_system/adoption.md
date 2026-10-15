@@ -3,6 +3,8 @@ type: self
 description: Pinned knowledge-management adoption map and native operating paths
 source_refs:
   - kind: local
+    target: ../inbox/sources/agent-harness-concept-2026-10-15-audit/manifest.json
+  - kind: local
     target: ../inbox/sources/agent-harness-concept-2026-10-15-a05a718/manifest.json
 updated: "2026-10-15"
 status: current
@@ -107,6 +109,29 @@ by reference to upstream `skills/origins.md` in that snapshot.
 | Upstream illustrative ADR | Referenced by ADR method in retained snapshot | Demonstrates Proposed without asserting project acceptance; no fabricated consumer decision |
 | Other upstream examples / example tree | Omitted as installation; fictional starter examples retained | Illustrative assets need not be copied; no whole-tree installation |
 | `tests/test_validate_knowledge.py` | Retained source, omitted as active consumer tests | Maintainer tests are not automatically required consumer assets; real target checks are configured above |
+
+## Source recheck and authoring guidance
+
+On 2026-10-15 a fresh GitHub HEAD response resolved to the same pinned v0.3.0
+commit above. The [source receipt](../inbox/sources/agent-harness-concept-2026-10-15-audit/manifest.json)
+records the response and a fresh unchanged repository archive. That archive is
+retained reference evidence, not a native installation or an expanded adoption.
+The original selected-file snapshot remains unchanged.
+
+The [contract audit](evidence/2026-10-15-source-audit.json) covers the knowledge
+and ADR methods, bootstrap/spec/config knowledge clauses, curator responsibilities,
+metadata, references, templates, lifecycle, logging, checks and Knowledge Outcome.
+The native skill already contained source_refs and all required source clauses;
+its authoring guidance lacked a copyable YAML shape and direct template routes.
+The skill now includes those plus guidance for choosing reference kinds and
+connecting claims to evidence. Block YAML and quoted dates remain local authoring
+conventions, not new restrictions on the portable upstream contract. Native log
+and layout references are now described as actual configuration rather than
+illustrative examples.
+
+A behavioral probe also confirmed that command-only topic `source_refs` pass
+as provenance while command-only structured `evidence` is rejected. The skill
+and checker guide distinguish this syntax check from substantive claim support.
 
 ## Conformance and limits
 
